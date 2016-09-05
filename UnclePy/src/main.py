@@ -40,13 +40,13 @@ while not done:
             column, row = grid.convert_to_cell_coordinates(pos[0], pos[1])
             print("Click ", pos, "Grid coordinates: ", row, column)
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RIGHT:
+            if event.key == pygame.K_RIGHT and snake.direction != 'LEFT':
                 snake.direction = 'RIGHT'
-            if event.key == pygame.K_LEFT:
+            if event.key == pygame.K_LEFT and snake.direction != 'RIGHT':
                 snake.direction = 'LEFT'
-            if event.key == pygame.K_UP:
+            if event.key == pygame.K_UP and snake.direction != 'DOWN':
                 snake.direction = 'UP'
-            if event.key == pygame.K_DOWN:
+            if event.key == pygame.K_DOWN and snake.direction != 'UP':
                 snake.direction = 'DOWN'
 
     snake.move()
