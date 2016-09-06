@@ -2,6 +2,8 @@ from exceptions.bounds import OutOfCellsBoundError
 from exceptions.direction import IncorrectMoveDirection
 from exceptions.twist import SnakeTwistedError
 
+from UnclePy.src.exceptions.speednegative import SpeedIsNotPositiveException
+
 
 class UnclePy:
     def __init__(self, grid, color, fps, speed=1):
@@ -29,7 +31,7 @@ class UnclePy:
         :return: None
         """
 
-        if self.__frames_counter != self.__fps - 1:
+        if self.__frames_counter < (self.__fps - 1) / self.speed:
             self.__frames_counter += 1
             return
 
@@ -97,6 +99,30 @@ class UnclePy:
         """
 
         self.__direction = new_direction
+
+    @property
+    def speed(self):
+        """
+        Return the speed for snake's movement
+
+        :return: int
+        """
+
+        return self.__speed
+
+    @speed.setter
+    def speed(self, speed):
+        """
+        Set the speed for snake's movement
+
+        :param speed: float
+        :return: None
+        """
+
+        if speed <= 0:
+            raise SpeedIsNotPositiveException('Speed must to be greater than 0')
+
+        self.__speed = speed
 
     def get_available_cells(self, cell_x, cell_y):
         """

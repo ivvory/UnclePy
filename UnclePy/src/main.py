@@ -7,7 +7,7 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 
-CELLS_IN_ROW = 80
+CELLS_IN_ROW = 60
 CELL_WIDTH = 6
 CELL_HEIGHT = 6
 MARGIN = 1
@@ -29,7 +29,7 @@ done = False
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
 
-snake = UnclePy(grid, RED, FPS // 60)
+snake = UnclePy(grid, RED, FPS)
 
 while not done:
     for event in pygame.event.get():
