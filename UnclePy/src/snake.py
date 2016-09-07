@@ -54,7 +54,7 @@ class UnclePy:
             raise IncorrectMoveDirection('')
 
         if self.__grid.is_cell_coordinates_out_of_grid(new_head[0], new_head[1]):
-            raise OutOfCellsBoundError('')
+            raise OutOfCellsBoundError('The snake has moved beyond the grid borders')
 
         if tuple(new_head) in self.__occupied_coordinates and tuple(new_head) != self.__occupied_coordinates[0]:
             raise SnakeTwistedError('')

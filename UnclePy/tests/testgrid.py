@@ -3,6 +3,8 @@ import unittest
 from basicgrid import BasicGrid
 from exceptions.bounds import OutOfCellsBoundError
 
+from UnclePy.src.snake import UnclePy
+
 
 class BasicGridTest(unittest.TestCase):
     def setUp(self):
@@ -28,12 +30,21 @@ class BasicGridTest(unittest.TestCase):
 
         self.assertListEqual([255, 255], grid.calculate_screen_size())
 
+    def test_clear(self):
+        grid = BasicGrid(20, 20, 5, 10)
+        UnclePy(grid, (255, 0, 0), 60)
+        grid.clear()
+
+        for row in grid:
+            for cell in row:
+                self.assertTupleEqual(grid.default_color, cell)
+
     def test_grid_init(self):
         grid = BasicGrid(20, 20, 5, 10).get_grid()
 
         for row in grid:
             for cell in row:
-                self.assertTupleEqual((0, 0, 0), cell)
+                self.assertTupleEqual(grid.default_color, cell)
 
     def test_convert_to_cell_coordinates(self):
         grid = BasicGrid(20, 20, 5, 10)

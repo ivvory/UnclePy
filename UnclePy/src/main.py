@@ -2,6 +2,9 @@ import pygame
 import basicgrid
 from snake import UnclePy
 
+from exceptions.bounds import OutOfCellsBoundError
+from exceptions.twist import SnakeTwistedError
+
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
@@ -35,10 +38,6 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            pos = pygame.mouse.get_pos()
-            column, row = grid.convert_to_cell_coordinates(pos[0], pos[1])
-            print("Click ", pos, "Grid coordinates: ", row, column)
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT and snake.direction != 'LEFT':
                 snake.direction = 'RIGHT'
@@ -49,7 +48,11 @@ while not done:
             if event.key == pygame.K_DOWN and snake.direction != 'UP':
                 snake.direction = 'DOWN'
 
-    snake.move()
+    try:
+        snake.move()
+    except (OutOfCellsBoundError, SnakeTwistedError):
+        snake = UnclePy(grid, RED, FPS)
+        grid.clear()
 
     # Set the screen background
     screen.fill(BLACK)

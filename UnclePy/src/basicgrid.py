@@ -3,11 +3,12 @@ from exceptions.bounds import OutOfCellsBoundError
 
 class BasicGrid:
 
-    def __init__(self, height, width, margin, cells_in_row):
+    def __init__(self, height, width, margin, cells_in_row, default_color=(0, 0, 0)):
         self.__cell_height = height
         self.__cell_width = width
         self.__margin = margin
         self.__cells_in_row = self.__cells_in_column = cells_in_row
+        self.__default_color = default_color
 
         self.__grid = self.__grid_init()
 
@@ -55,6 +56,17 @@ class BasicGrid:
 
         return [width, height]
 
+    def clear(self):
+        """
+        Set all cells in the grid to default color.
+
+        :return: None
+        """
+
+        for row in self.__grid:
+            for cell in row:
+                cell = self.default_color
+
     def __grid_init(self):
         """
         Creates 2-dimensional array contained the color of each cell in the grid
@@ -63,7 +75,7 @@ class BasicGrid:
         :return: 2-dimensional array of default colours
         """
 
-        grid = [[(0, 0, 0) for x in range(self.__cells_in_row)] for y in range(self.__cells_in_row)]
+        grid = [[self.__default_color for x in range(self.__cells_in_row)] for y in range(self.__cells_in_row)]
 
         return grid
 
@@ -111,3 +123,23 @@ class BasicGrid:
 
         return False
 
+    @property
+    def default_color(self):
+        """
+        Return default color of a grid
+
+        :return: color as tuple
+        """
+
+        return self.__default_color
+
+    @default_color.setter
+    def default_color(self, new_color):
+        """
+        Set default color of a grid
+
+        :param new_color: color as tuple
+        :return: None
+        """
+
+        self.__default_color = new_color
