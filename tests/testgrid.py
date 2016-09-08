@@ -3,7 +3,7 @@ import unittest
 from basicgrid import BasicGrid
 from exceptions.bounds import OutOfCellsBoundError
 
-from UnclePy.src.snake import UnclePy
+from snake import UnclePy
 
 
 class BasicGridTest(unittest.TestCase):
@@ -40,7 +40,7 @@ class BasicGridTest(unittest.TestCase):
                 self.assertTupleEqual(grid.default_color, cell)
 
     def test_grid_init(self):
-        grid = BasicGrid(20, 20, 5, 10).get_grid()
+        grid = BasicGrid(20, 20, 5, 10)._grid
 
         for row in grid:
             for cell in row:
@@ -81,7 +81,7 @@ class BasicGridTest(unittest.TestCase):
     def test_is_cell_coordinates_out_of_grid(self):
         grid = BasicGrid(20, 20, 5, 10)
 
-        self.assertTrue(grid.is_cell_coordinates_out_of_grid(-1, 0))
-        self.assertTrue(grid.is_cell_coordinates_out_of_grid(0, -1))
-        self.assertTrue(grid.is_cell_coordinates_out_of_grid(10, 0))
-        self.assertTrue(grid.is_cell_coordinates_out_of_grid(0, 10))
+        self.assertTrue(grid.__is_cell_coordinates_out_of_grid(-1, 0))
+        self.assertTrue(grid.__is_cell_coordinates_out_of_grid(0, -1))
+        self.assertTrue(grid.__is_cell_coordinates_out_of_grid(10, 0))
+        self.assertTrue(grid.__is_cell_coordinates_out_of_grid(0, 10))

@@ -2,7 +2,7 @@ from exceptions.bounds import OutOfCellsBoundError
 from exceptions.direction import IncorrectMoveDirection
 from exceptions.twist import SnakeTwistedError
 
-from UnclePy.src.exceptions.speednegative import SpeedIsNotPositiveException
+from exceptions.speednegative import SpeedIsNotPositiveException
 
 
 class UnclePy:
@@ -53,7 +53,7 @@ class UnclePy:
         else:
             raise IncorrectMoveDirection('')
 
-        if self.__grid.is_cell_coordinates_out_of_grid(new_head[0], new_head[1]):
+        if self.__grid.__is_cell_coordinates_out_of_grid(new_head[0], new_head[1]):
             raise OutOfCellsBoundError('The snake has moved beyond the grid borders')
 
         if tuple(new_head) in self.__occupied_coordinates and tuple(new_head) != self.__occupied_coordinates[0]:
@@ -147,7 +147,7 @@ class UnclePy:
         return cells
 
     def __is_cell_available(self, cell_x, cell_y):
-        if not self.__grid.is_cell_coordinates_out_of_grid(cell_x, cell_y) and (
+        if not self.__grid.__is_cell_coordinates_out_of_grid(cell_x, cell_y) and (
          cell_x, cell_y) not in self.__occupied_coordinates:
             return True
 
@@ -162,7 +162,7 @@ class UnclePy:
         :return: True if passing cell is not occupied yet or not out of grid bounds
         """
 
-        if self.__grid.is_cell_coordinates_out_of_grid(cell_x, cell_y):
+        if self.__grid.__is_cell_coordinates_out_of_grid(cell_x, cell_y):
             return False
 
         self.__occupied_coordinates.append((cell_x, cell_y))
