@@ -9,11 +9,6 @@ from snake import UnclePy
 class BasicGridTest(unittest.TestCase):
     def setUp(self):
         pass
-        #  print('BasicGridTest setUp()')
-
-    def tearDown(self):
-        pass
-        #  print('BasicGridTest tearDown()')
 
     def test_draw(self):
         self.assertTrue(True)
@@ -71,17 +66,3 @@ class BasicGridTest(unittest.TestCase):
             pass  # All right
         else:
             self.fail('Method does not fail if passed coordinates are zeros')
-
-    def test_get_color_of_cell(self):
-        grid = BasicGrid(20, 20, 5, 10)
-
-        grid.set_color_of_cell((5, 5, 5), 1, 1)
-        self.assertTupleEqual((5, 5, 5), grid.get_color_of_cell(1, 1))
-
-    def test_is_cell_coordinates_out_of_grid(self):
-        grid = BasicGrid(20, 20, 5, 10)
-
-        self.assertTrue(grid.__is_cell_coordinates_out_of_grid(-1, 0))
-        self.assertTrue(grid.__is_cell_coordinates_out_of_grid(0, -1))
-        self.assertTrue(grid.__is_cell_coordinates_out_of_grid(10, 0))
-        self.assertTrue(grid.__is_cell_coordinates_out_of_grid(0, 10))
