@@ -8,60 +8,63 @@ from snake import UnclePy
 
 class BasicGridTest(unittest.TestCase):
     def setUp(self):
-        pass
+        self.cell_height = 6
+        self.cell_width = 6
+        self.margin = 1
+        self.cells_in_row = self.cells_in_column = 60
+        self._default_color = (200, 200, 200)
+
+        self.grid = BasicGrid(self.cell_height, self.cell_width, self.margin, self.cells_in_row)
 
     def test_draw(self):
         self.assertTrue(True)
 
     def test_set_color_of_cell(self):
         color = (255, 255, 255)
-        grid = BasicGrid(20, 20, 5, 10)
 
-        grid.set_color_of_cell(color, 0, 2)
-        self.assertTupleEqual(color, grid.get_color_of_cell(0, 2))
+        self.grid.set_color_of_cell(color, 0, 0)
+        self.assertTupleEqual(color, self.grid.grid[0][0])
 
     def test_calculate_screen_size(self):
-        grid = BasicGrid(20, 20, 5, 10)
+        screen_width = self.cells_in_row * (self.cell_width + self.margin) + self.margin
+        screen_height = self.cells_in_column * (self.cell_height + self.margin) + self.margin
 
-        self.assertListEqual([255, 255], grid.calculate_screen_size())
+        self.assertListEqual([screen_width, screen_height],
+                             self.grid.calculate_screen_size())
 
     def test_clear(self):
-        grid = BasicGrid(20, 20, 5, 10)
-        UnclePy(grid, (255, 0, 0), 60)
-        grid.clear()
+        UnclePy(self.grid, (255, 0, 0), 60)
+        self.grid.clear()
 
-        for row in grid:
+        for row in self.grid.grid:
             for cell in row:
-                self.assertTupleEqual(grid.default_color, cell)
+                self.assertTupleEqual(self.grid.default_color, cell)
 
     def test_grid_init(self):
-        grid = BasicGrid(20, 20, 5, 10)._grid
-
-        for row in grid:
+        for row in self.grid.grid:
             for cell in row:
-                self.assertTupleEqual(grid.default_color, cell)
+                self.assertTupleEqual(self.grid.default_color, cell)
 
     def test_convert_to_cell_coordinates(self):
-        grid = BasicGrid(20, 20, 5, 10)
-
-        self.assertTupleEqual((0, 0), grid.convert_to_cell_coordinates(6, 6))
+        self.assertTupleEqual((0, 0), self.grid.convert_to_cell_coordinates(self.cell_height - 1, self.cell_width - 1))
 
         try:
-            grid.convert_to_cell_coordinates(27, 27)
+            if self.margin > 0:
+                self.grid.convert_to_cell_coordinates(self.margin - 1, self.margin - 1)
         except OutOfCellsBoundError:
             pass  # All right
         else:
             self.fail('Method does not fail if passed coordinates are between cells')
 
         try:
-            grid.convert_to_cell_coordinates(-5, -20)
+            self.grid.convert_to_cell_coordinates(-5, -20)
         except OutOfCellsBoundError:
             pass  # All right
         else:
             self.fail('Method does not fail if passed coordinates are negative')
 
         try:
-            grid.convert_to_cell_coordinates(0, 0)
+            self.grid.convert_to_cell_coordinates(0, 0)
         except OutOfCellsBoundError:
             pass  # All right
         else:

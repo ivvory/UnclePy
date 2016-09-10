@@ -3,13 +3,13 @@ from exceptions.bounds import OutOfCellsBoundError
 
 class BasicGrid:
 
-    def __init__(self, height, width, margin, cells_in_row, default_color=(0, 0, 0)):
+    def __init__(self, height, width, margin, cells_in_row):
         self.cell_height = height
         self.cell_width = width
         self.margin = margin
         self.cells_in_row = self.cells_in_column = cells_in_row
 
-        self._default_color = default_color
+        self._default_color = (0, 0, 0)
         self._grid = self._grid_init()
 
     def draw(self, screen, pygame):
@@ -85,10 +85,9 @@ class BasicGrid:
         :return: None
         """
 
-        cell_coordinates = self.convert_to_cell_coordinates(x, y)
-        self._grid[cell_coordinates[0]][cell_coordinates[1]] = color
+        self._grid[x][y] = color
 
-    def __grid_init(self):
+    def _grid_init(self):
         """
         Creates 2-dimensional array contained the color of each cell in the grid
         and init all cells by default color (BLACK).
@@ -96,11 +95,11 @@ class BasicGrid:
         :return: 2-dimensional array of default colours
         """
 
-        grid = [[self._default_color for x in range(self.cells_in_row)] for y in range(self.cells_in_row)]
+        grid = [[self.default_color for x in range(self.cells_in_row)] for y in range(self.cells_in_row)]
 
         return grid
 
-    def __is_cell_coordinates_out_of_grid(self, cell_x, cell_y):
+    def is_cell_coordinates_out_of_grid(self, cell_x, cell_y):
         """
         :param cell_x: x coordinate of the cell
         :param cell_y: y coordinate of the cell
@@ -113,11 +112,11 @@ class BasicGrid:
         return False
 
     @property
-    def _grid(self):
+    def grid(self):
         return self._grid.copy()
 
     @property
-    def _default_color(self):
+    def default_color(self):
         """
         Return default color of a grid
 
@@ -126,8 +125,8 @@ class BasicGrid:
 
         return self._default_color
 
-    @_default_color.setter
-    def _default_color(self, red, green, blue):
+    @default_color.setter
+    def default_color(self, red, green, blue):
         """
         Set default color of a grid
 
@@ -135,6 +134,6 @@ class BasicGrid:
         :return: None
         """
 
-        self._default_color = (red, green, blue)
+        self.default_color = (red, green, blue)
 
 # http://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html
