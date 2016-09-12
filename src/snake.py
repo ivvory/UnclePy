@@ -16,13 +16,13 @@ class UnclePy:
         self.__frames_counter = 0
 
         #  Dispose the snake in the top left corner of the grid
-        self.occupy_cell(0, 0)
-        self.occupy_cell(1, 0)
-        self.occupy_cell(2, 0)
-        self.occupy_cell(3, 0)
-        self.occupy_cell(4, 0)
-        self.occupy_cell(5, 0)
-        self.occupy_cell(6, 0)
+        self._occupy_cell(0, 0)
+        self._occupy_cell(1, 0)
+        self._occupy_cell(2, 0)
+        self._occupy_cell(3, 0)
+        self._occupy_cell(4, 0)
+        self._occupy_cell(5, 0)
+        self._occupy_cell(6, 0)
 
     def move(self):
         """
@@ -153,7 +153,7 @@ class UnclePy:
 
         return False
 
-    def occupy_cell(self, cell_x, cell_y):
+    def _occupy_cell(self, cell_x, cell_y):
         """
         Mark that snake occupies passing cell.
 
