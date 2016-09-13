@@ -32,7 +32,7 @@ done = False
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
 
-snake = UnclePy(grid, RED, FPS)
+snake = UnclePy(grid, RED, FPS, 60)
 
 while not done:
     for event in pygame.event.get():
