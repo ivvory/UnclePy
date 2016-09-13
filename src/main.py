@@ -2,8 +2,8 @@ import pygame
 import basicgrid
 from snake import UnclePy
 
-from exceptions.bounds import OutOfCellsBoundError
-from exceptions.twist import SnakeTwistedError
+from exceptions.grid_exceptions import OutOfCellsBoundError
+from exceptions.snake_exceptions import SnakeTwistedError
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)

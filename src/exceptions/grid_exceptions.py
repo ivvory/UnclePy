@@ -1,0 +1,2 @@
+class OutOfCellsBoundError(Exception):
+    pass
