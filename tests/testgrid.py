@@ -30,7 +30,7 @@ class BasicGridTest(unittest.TestCase):
         screen_height = self.cells_in_column * (self.cell_height + self.margin) + self.margin
 
         self.assertListEqual([screen_width, screen_height],
-                             self.grid.calculate_screen_size())
+                             self.grid.screen_size())
 
     def test_clear(self):
         UnclePy(self.grid, (255, 0, 0), 60)
@@ -46,25 +46,25 @@ class BasicGridTest(unittest.TestCase):
                 self.assertTupleEqual(self.grid.default_color, cell)
 
     def test_convert_to_cell_coordinates(self):
-        self.assertTupleEqual((0, 0), self.grid.convert_to_cell_coordinates(self.cell_height - 1, self.cell_width - 1))
+        self.assertTupleEqual((0, 0), self.grid.to_grid_coordinates(self.cell_height - 1, self.cell_width - 1))
 
         try:
             if self.margin > 0:
-                self.grid.convert_to_cell_coordinates(self.margin - 1, self.margin - 1)
+                self.grid.to_grid_coordinates(self.margin - 1, self.margin - 1)
         except OutOfCellsBoundError:
             pass  # All right
         else:
             self.fail('Method does not fail if passed coordinates are between cells')
 
         try:
-            self.grid.convert_to_cell_coordinates(-5, -20)
+            self.grid.to_grid_coordinates(-5, -20)
         except OutOfCellsBoundError:
             pass  # All right
         else:
             self.fail('Method does not fail if passed coordinates are negative')
 
         try:
-            self.grid.convert_to_cell_coordinates(0, 0)
+            self.grid.to_grid_coordinates(0, 0)
         except OutOfCellsBoundError:
             pass  # All right
         else:

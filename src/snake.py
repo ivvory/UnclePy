@@ -4,6 +4,13 @@ from src.exceptions.snake_exceptions import SnakeTwistedError
 from src.exceptions.snake_exceptions import SpeedIsNotPositiveException
 
 
+class Directions:
+    LEFT = 'Left'
+    UP = 'Up'
+    RIGHT = 'Right'
+    DOWN = 'Down'
+
+
 class UnclePy:
     """
         Class represents a snake on the screen and provides the reins for
@@ -12,24 +19,23 @@ class UnclePy:
 
     def __init__(self, grid, color, fps, speed=1):
         """
-        Declared required variables and dispose the snake on the screen.
+        Declare required variables and dispose the snake on the screen.
 
         Args:
             grid (:obj:`BasicGrid`): Object of the grid containing.
             color (:obj:`tuple`): A snake will have such color on the screen.
             fps (:obj:`int`): Frequency of screen refreshing.
-            speed (:obj:`int`, optional): Speed of snake movement on the screen.
+            speed (:obj:`int`, optional): Speed of the snake on the screen.
         """
         self.__grid = grid
         self.__color = color
         self.__fps = fps
         self.__speed = speed
 
-        #: list of tuples: contains cells which are occupied by the snake.
+        #: list of tuples: containing cells which are occupied by the snake.
         self.__occupied_coordinates = []
 
-        #: str: Specified a direction the snake will move.
-        self.__direction = 'RIGHT'
+        self.__direction = Directions.RIGHT
         self.__frames_counter = 0
         """int: counts how many times a move() method was called to manage a speed of the snake."""
 
@@ -73,18 +79,18 @@ class UnclePy:
 
         old_head = list(self.get_head())
         new_head = old_head.copy()
-        if self.direction == 'RIGHT':
+        if self.direction == Directions.RIGHT:
             new_head[0] += 1
-        elif self.direction == 'LEFT':
+        elif self.direction == Directions.LEFT:
             new_head[0] -= 1
-        elif self.direction == 'UP':
+        elif self.direction == Directions.UP:
             new_head[1] -= 1
-        elif self.direction == 'DOWN':
+        elif self.direction == Directions.DOWN:
             new_head[1] += 1
         else:
             raise IncorrectMoveDirection('')
 
-        if self.__grid.is_cell_coordinates_out_of_grid(new_head[0], new_head[1]):
+        if self.__grid.is_coordinates_out_of_grid(new_head[0], new_head[1]):
             raise OutOfCellsBoundError('The snake has moved beyond the grid borders')
 
         if tuple(new_head) in self.__occupied_coordinates and tuple(new_head) != self.__occupied_coordinates[0]:
@@ -97,7 +103,7 @@ class UnclePy:
 
     def get_head(self):
         """
-        Get a head of the snake.
+        Get the head of the snake.
 
         Returns:
             :obj:`tuple`: a head of the snake.
@@ -113,7 +119,7 @@ class UnclePy:
 
     @property
     def direction(self):
-        """str: the direction where will the snake move."""
+        """str: the direction where the snake is moving."""
 
         return self.__direction
 
@@ -123,14 +129,14 @@ class UnclePy:
 
     @property
     def speed(self):
-        """int: the speed for snake's movement."""
+        """int: speed of the snake's movement."""
 
         return self.__speed
 
     @speed.setter
     def speed(self, speed):
         if speed <= 0:
-            raise SpeedIsNotPositiveException('Speed must to be greater than 0')
+            raise SpeedIsNotPositiveException('Speed must be greater than 0.')
 
         self.__speed = speed
 
@@ -160,7 +166,7 @@ class UnclePy:
         return cells
 
     def _is_cell_available(self, cell_x, cell_y):
-        if not self.__grid.is_cell_coordinates_out_of_grid(cell_x, cell_y) and (
+        if not self.__grid.is_coordinates_out_of_grid(cell_x, cell_y) and (
          cell_x, cell_y) not in self.__occupied_coordinates:
             return True
 
@@ -168,7 +174,7 @@ class UnclePy:
 
     def _occupy_cell(self, cell_x, cell_y):
 
-        if self.__grid.is_cell_coordinates_out_of_grid(cell_x, cell_y):
+        if self.__grid.is_coordinates_out_of_grid(cell_x, cell_y):
             return False
 
         self.__occupied_coordinates.append((cell_x, cell_y))

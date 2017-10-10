@@ -3,7 +3,7 @@ from src.exceptions.grid_exceptions import OutOfCellsBoundError
 
 class BasicGrid:
     """
-    Represents the grid.
+    Represent the grid.
     """
 
     def __init__(self, height, width, margin, cells_in_row):
@@ -27,7 +27,7 @@ class BasicGrid:
 
     def draw(self, screen, pygame):
         """
-        Draws the grid on the screen using pygame object.
+        Draw the grid on the screen using pygame object.
 
         Args:
             :obj:`screen`: specified the screen where a snake will be drawn.
@@ -43,14 +43,12 @@ class BasicGrid:
                                   self.cell_width,
                                   self.cell_height])
 
-    def calculate_screen_size(self):
+    def screen_size(self):
         """
-        Calculates the coordinates of the screen to be initialized using the margin
-        between cells, width and height of each cell and count of cells in row/column
-        as well.
+        Calculates the screen coordinates according to established grid params.
 
         Returns:
-             :obj:`list`: calculated screen coordinates.
+             :obj:`list`: width and height of the screen in pixels.
         """
 
         width = self.margin + self.cells_in_row * (self.cell_width + self.margin)
@@ -65,28 +63,27 @@ class BasicGrid:
             for cell in row:
                 cell = self.default_color
 
-    def convert_to_cell_coordinates(self, x, y):
+    def to_grid_coordinates(self, screen_x, screen_y):
         """
-        Converts screen coordinates to the coordinates of the cell in the grid.
+        Convert screen coordinates to grid coordinates.
 
         Raises:
-            OutOfCellsBoundError: if screen coordinates are negative or between
-            cells.
+            OutOfCellsBoundError: if screen coordinates are negative or between cells.
 
         Returns:
              :obj:`tuple`: converted cell coordinates.
         """
 
-        x_remainder = x % (self.cell_width + self.margin)
-        y_remainder = y % (self.cell_width + self.margin)
+        x_remainder = screen_x % (self.cell_width + self.margin)
+        y_remainder = screen_y % (self.cell_width + self.margin)
 
         if x_remainder < self.margin or y_remainder < self.margin:
             raise OutOfCellsBoundError("Passing coordinates are between cells.")
-        if x < 0 or y < 0:
+        if screen_x < 0 or screen_y < 0:
             raise OutOfCellsBoundError("Passing coordinates are negative.")
 
-        cell_x = int(x / (self.cell_width + self.margin))
-        cell_y = int(y / (self.cell_width + self.margin))
+        cell_x = int(screen_x / (self.cell_width + self.margin))
+        cell_y = int(screen_y / (self.cell_width + self.margin))
 
         return cell_x, cell_y
 
@@ -107,9 +104,9 @@ class BasicGrid:
 
         return grid
 
-    def is_cell_coordinates_out_of_grid(self, cell_x, cell_y):
+    def is_coordinates_out_of_grid(self, cell_x, cell_y):
         """
-         Verifies if the coordinates are out of grid.
+         Verify if the coordinates are out of grid.
 
         Args:
             :obj:`int` cell_x: x coordinate of the cell
@@ -119,10 +116,10 @@ class BasicGrid:
              True if coordinates are out of grid else False.
         """
 
-        if cell_x < 0 or cell_y < 0 or cell_x >= self.cells_in_row or cell_y >= self.cells_in_column:
-            return True
-
-        return False
+        return cell_x < 0 \
+            or cell_y < 0 \
+            or cell_x >= self.cells_in_row \
+            or cell_y >= self.cells_in_column
 
     @property
     def grid(self):

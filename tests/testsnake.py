@@ -1,7 +1,7 @@
 import unittest
 
 from src.basicgrid import BasicGrid
-from src.snake import UnclePy
+from src.snake import UnclePy, Directions
 from src.exceptions.snake_exceptions import IncorrectMoveDirection
 from src.exceptions.snake_exceptions import SnakeTwistedError
 from src.exceptions.grid_exceptions import OutOfCellsBoundError
@@ -36,7 +36,7 @@ class TestUnclePy(unittest.TestCase):
             self.fail('Method does not fail when direction is incorrect')
 
         try:
-            move('UP')
+            move(Directions.UP)
         except OutOfCellsBoundError:
             pass  # All right
         else:
@@ -44,7 +44,7 @@ class TestUnclePy(unittest.TestCase):
 
         old_head = list(self.snake.get_head())
 
-        sequence_of_directions = ['RIGHT', 'DOWN', 'DOWN', 'LEFT', 'UP']
+        sequence_of_directions = [Directions.RIGHT, Directions.DOWN, Directions.DOWN, Directions.LEFT, Directions.UP]
         [move(direction) for direction in sequence_of_directions]
 
         new_head = list(self.snake.get_head())
@@ -52,7 +52,7 @@ class TestUnclePy(unittest.TestCase):
         self.assertListEqual(new_head, old_head)
 
         try:
-            move('UP')
+            move(Directions.UP)
         except SnakeTwistedError:
             pass  # All right
         else:

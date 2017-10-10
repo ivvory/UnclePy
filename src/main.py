@@ -1,7 +1,7 @@
 import pygame
 
 from src.basicgrid import BasicGrid
-from src.snake import UnclePy
+from src.snake import UnclePy, Directions
 
 from src.exceptions.grid_exceptions import OutOfCellsBoundError
 from src.exceptions.snake_exceptions import SnakeTwistedError
@@ -22,7 +22,7 @@ grid = BasicGrid(CELL_WIDTH, CELL_HEIGHT, MARGIN, CELLS_IN_ROW)
 
 pygame.init()
 
-WINDOW_SIZE = grid.calculate_screen_size()
+WINDOW_SIZE = grid.screen_size()
 screen = pygame.display.set_mode(WINDOW_SIZE)
 
 pygame.display.set_caption('UnclePy')
@@ -40,14 +40,14 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RIGHT and snake.direction != 'LEFT':
-                snake.direction = 'RIGHT'
-            if event.key == pygame.K_LEFT and snake.direction != 'RIGHT':
-                snake.direction = 'LEFT'
-            if event.key == pygame.K_UP and snake.direction != 'DOWN':
-                snake.direction = 'UP'
-            if event.key == pygame.K_DOWN and snake.direction != 'UP':
-                snake.direction = 'DOWN'
+            if event.key == pygame.K_RIGHT and snake.direction != Directions.LEFT:
+                snake.direction = Directions.RIGHT
+            if event.key == pygame.K_LEFT and snake.direction != Directions.RIGHT:
+                snake.direction = Directions.LEFT
+            if event.key == pygame.K_UP and snake.direction != Directions.DOWN:
+                snake.direction = Directions.UP
+            if event.key == pygame.K_DOWN and snake.direction != Directions.UP:
+                snake.direction = Directions.DOWN
 
     try:
         snake.move()
