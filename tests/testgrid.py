@@ -1,9 +1,9 @@
 import unittest
 
-from basicgrid import BasicGrid
-from exceptions.bounds import OutOfCellsBoundError
+from src.basicgrid import BasicGrid
+from src.exceptions.grid_exceptions import OutOfCellsBoundError
 
-from snake import UnclePy
+from src.snake import UnclePy
 
 
 class BasicGridTest(unittest.TestCase):

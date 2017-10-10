@@ -1,9 +1,10 @@
 import pygame
-import basicgrid
-from snake import UnclePy
 
-from exceptions.grid_exceptions import OutOfCellsBoundError
-from exceptions.snake_exceptions import SnakeTwistedError
+from src.basicgrid import BasicGrid
+from src.snake import UnclePy
+
+from src.exceptions.grid_exceptions import OutOfCellsBoundError
+from src.exceptions.snake_exceptions import SnakeTwistedError
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -17,7 +18,7 @@ MARGIN = 1
 
 FPS = 60
 
-grid = basicgrid.BasicGrid(CELL_WIDTH, CELL_HEIGHT, MARGIN, CELLS_IN_ROW)
+grid = BasicGrid(CELL_WIDTH, CELL_HEIGHT, MARGIN, CELLS_IN_ROW)
 
 pygame.init()
 

@@ -1,7 +1,7 @@
-from exceptions.grid_exceptions import OutOfCellsBoundError
-from exceptions.snake_exceptions import IncorrectMoveDirection
-from exceptions.snake_exceptions import SnakeTwistedError
-from exceptions.snake_exceptions import SpeedIsNotPositiveException
+from src.exceptions.grid_exceptions import OutOfCellsBoundError
+from src.exceptions.snake_exceptions import IncorrectMoveDirection
+from src.exceptions.snake_exceptions import SnakeTwistedError
+from src.exceptions.snake_exceptions import SpeedIsNotPositiveException
 
 
 class UnclePy:

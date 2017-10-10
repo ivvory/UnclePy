@@ -1,10 +1,10 @@
 import unittest
 
-from basicgrid import BasicGrid
-from snake import UnclePy
-from exceptions.snake_exceptions import IncorrectMoveDirection
-from exceptions.snake_exceptions import SnakeTwistedError
-from exceptions.grid_exceptions import OutOfCellsBoundError
+from src.basicgrid import BasicGrid
+from src.snake import UnclePy
+from src.exceptions.snake_exceptions import IncorrectMoveDirection
+from src.exceptions.snake_exceptions import SnakeTwistedError
+from src.exceptions.grid_exceptions import OutOfCellsBoundError
 
 
 class TestUnclePy(unittest.TestCase):

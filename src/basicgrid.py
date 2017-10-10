@@ -1,4 +1,4 @@
-from exceptions.grid_exceptions import OutOfCellsBoundError
+from src.exceptions.grid_exceptions import OutOfCellsBoundError
 
 
 class BasicGrid:
