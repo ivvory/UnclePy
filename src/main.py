@@ -18,55 +18,61 @@ MARGIN = 1
 
 FPS = 60
 
-grid = BasicGrid(CELL_WIDTH, CELL_HEIGHT, MARGIN, CELLS_IN_ROW)
 
-pygame.init()
+def main():
+    grid = BasicGrid(CELL_WIDTH, CELL_HEIGHT, MARGIN, CELLS_IN_ROW)
 
-WINDOW_SIZE = grid.screen_size()
-screen = pygame.display.set_mode(WINDOW_SIZE)
+    pygame.init()
 
-pygame.display.set_caption('UnclePy')
+    WINDOW_SIZE = grid.screen_size()
+    screen = pygame.display.set_mode(WINDOW_SIZE)
 
-# Loop until the user clicks the close button.
-done = False
+    pygame.display.set_caption('UnclePy')
 
-# Used to manage how fast the screen updates
-clock = pygame.time.Clock()
+    # Loop until the user clicks the close button.
+    done = False
 
-snake = UnclePy(grid, RED, FPS, 60)
+    # Used to manage how fast the screen updates
+    clock = pygame.time.Clock()
 
-while not done:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            done = True
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RIGHT and snake.direction != Directions.LEFT:
-                snake.direction = Directions.RIGHT
-            if event.key == pygame.K_LEFT and snake.direction != Directions.RIGHT:
-                snake.direction = Directions.LEFT
-            if event.key == pygame.K_UP and snake.direction != Directions.DOWN:
-                snake.direction = Directions.UP
-            if event.key == pygame.K_DOWN and snake.direction != Directions.UP:
-                snake.direction = Directions.DOWN
+    snake = UnclePy(grid, RED, FPS, 60)
 
-    try:
-        snake.move()
-    except (OutOfCellsBoundError, SnakeTwistedError):
-        snake = UnclePy(grid, RED, FPS)
-        grid.clear()
+    while not done:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                done = True
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT and snake.direction != Directions.LEFT:
+                    snake.direction = Directions.RIGHT
+                if event.key == pygame.K_LEFT and snake.direction != Directions.RIGHT:
+                    snake.direction = Directions.LEFT
+                if event.key == pygame.K_UP and snake.direction != Directions.DOWN:
+                    snake.direction = Directions.UP
+                if event.key == pygame.K_DOWN and snake.direction != Directions.UP:
+                    snake.direction = Directions.DOWN
 
-    # Set the screen background
-    screen.fill(BLACK)
+        try:
+            snake.move()
+        except (OutOfCellsBoundError, SnakeTwistedError):
+            snake = UnclePy(grid, RED, FPS)
+            grid.clear()
 
-    # Draw the grid
-    grid.draw(screen, pygame)
+        # Set the screen background
+        screen.fill(BLACK)
 
-    # Limit to 60 frames per second
-    clock.tick(FPS)
+        # Draw the grid
+        grid.draw(screen, pygame)
 
-    # Go ahead and update the screen with what we've drawn.
-    pygame.display.flip()
+        # Limit to 60 frames per second
+        clock.tick(FPS)
 
-# Be IDLE friendly. If you forget this line, the program will 'hang'
-# on exit.
-pygame.quit()
+        # Go ahead and update the screen with what we've drawn.
+        pygame.display.flip()
+
+    # Be IDLE friendly. If you forget this line, the program will 'hang'
+    # on exit.
+    pygame.quit()
+
+
+if __name__ == "__main__":
+    main()
