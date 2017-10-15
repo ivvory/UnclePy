@@ -6,9 +6,9 @@ SRCDIR       = src
 DOCDIR       = docs
 
 
-SPHINX_SOURCEDIR  = $(DOCDIR)/source
-SPHINX_BUILDDIR   = $(DOCDIR)/_build
-SPHINX_RSTDIR     = $(SPHINX_SOURCEDIR)/rst
+SPHINX_SOURCEDIR  = $(DOCDIR)
+SPHINX_BUILDDIR   = $(DOCDIR)/build
+SPHINX_RSTDIR     = $(DOCDIR)/rst
 SPHINX_OPTS       =
 
 
