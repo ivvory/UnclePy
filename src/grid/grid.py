@@ -1,6 +1,5 @@
 import itertools
 from collections import namedtuple
-from datetime import datetime
 
 from src.exceptions.grid_exceptions import OutOfGridBoundsError
 from src.grid.cell import GridCell
@@ -47,21 +46,25 @@ class BasicGrid:
             :obj:`screen`: specified the screen where a snake will be drawn.
             :obj:`pygame`: used to call ``draw`` method.
         """
-        for row in range(self.bounds.cells_in_row):
-            for column in range(self.bounds.cells_in_column):
-                pygame.draw.rect(
-                    screen,
-                    self.get_cell(row, column).color,
-                    [
-                        (self.cell_margin + self.cell_width) * row + self.cell_margin,
-                        (self.cell_margin + self.cell_height) * column + self.cell_margin,
-                        self.cell_width,
-                        self.cell_height
-                    ]
-                )
 
-    def add_structures(self, structures: list):
-        self.structures += structures
+        changed_cells = [c for c in self.cells if c.changed]
+
+        for c in changed_cells:
+            x, y = c.coordinates
+
+            pygame.draw.rect(
+                screen,
+                c.color,
+                [
+                    (self.cell_margin + self.cell_width) * x + self.cell_margin,
+                    (self.cell_margin + self.cell_height) * y + self.cell_margin,
+                    self.cell_width,
+                    self.cell_height
+                ]
+            )
+
+        for c in changed_cells:
+            c.changed = False
 
     def get_owner_cells(self, owner: GridStructure) -> list:
         return [c for c in self.cells if c.owner is owner]

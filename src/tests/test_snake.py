@@ -32,6 +32,7 @@ class TestUnclePy(unittest.TestCase):
             self.snake.move()
 
     def test_twisted_move(self):
+        self.fps = -1
         self.snake.direction = Directions.DOWN
         self.snake.move()
         self.snake.direction = Directions.LEFT

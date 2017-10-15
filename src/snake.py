@@ -78,9 +78,9 @@ class UnclePy(GridStructure):
             SnakeTwistedError: if new head is one the snake cells.
         """
 
-        # if self.frame_counter < (self.fps - 1) / self.speed:
-        #     self.frame_counter += 1
-        #     return
+        if self.frame_counter < (self.fps - 1) / self.speed:
+            self.frame_counter += 1
+            return
 
         self.frame_counter = 0
 
@@ -88,10 +88,10 @@ class UnclePy(GridStructure):
             self.move_head()
         except OutOfGridBoundsError:
             raise SnakeHeadBeatenError()
-        self.move_tail()
+        except SnakeTwistedError:
+            raise
 
-        if self.head in self.cells[:-1]:
-            raise SnakeTwistedError()
+        self.move_tail()
 
     def move_head(self):
         """Move the head to another cell according current direction."""
@@ -108,11 +108,14 @@ class UnclePy(GridStructure):
             y += 1
 
         new_head = self.grid.get_cell(x, y)
+
+        if new_head.owner is self:
+            raise SnakeTwistedError()
+
         new_head.occupy(self)
-        self.cells += [new_head]
 
     def move_tail(self):
         """Release previous tail cell and return it back to the grid."""
 
-        thrown_tail = self.cells.pop(0)
+        thrown_tail = self.cells[0]
         self.grid.bring_back_cells([thrown_tail])

@@ -28,17 +28,14 @@ def main():
 
     window_size = grid.screen_size()
     screen = pygame.display.set_mode(window_size)
-
     pygame.display.set_caption('UnclePy')
-
-    # Loop until the user clicks the close button.
-    done = False
 
     # Used to manage how fast the screen updates
     clock = pygame.time.Clock()
+    speed = 1
+    snake = UnclePy(grid, RED, FPS, speed)
 
-    snake = UnclePy(grid, RED, FPS, 60)
-
+    done = False
     while not done:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -57,15 +54,13 @@ def main():
         except (OutOfGridBoundsError, SnakeTwistedError, SnakeHeadBeatenError):
             grid.clear()
             del grid.structures[-1]
-            snake = UnclePy(grid, RED, FPS, 60)
-        # Set the screen background
-        screen.fill(BLACK)
+            snake = UnclePy(grid, RED, FPS, speed)
 
         # Draw the grid
         grid.draw(screen, pygame)
 
         # Limit to 60 frames per second
-        clock.tick(FPS)
+        clock.tick(60)
 
         # Go ahead and update the screen with what we've drawn.
         pygame.display.flip()
