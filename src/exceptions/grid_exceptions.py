@@ -1,2 +1,2 @@
-class OutOfCellsBoundError(Exception):
+class OutOfGridBoundsError(Exception):
     pass

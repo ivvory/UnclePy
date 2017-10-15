@@ -1,10 +1,9 @@
 import pygame
 
-from src.basicgrid import BasicGrid
+from src.exceptions.grid_exceptions import OutOfGridBoundsError
+from src.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError
+from src.grid.grid import BasicGrid
 from src.snake import UnclePy, Directions
-
-from src.exceptions.grid_exceptions import OutOfCellsBoundError
-from src.exceptions.snake_exceptions import SnakeTwistedError
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -20,12 +19,15 @@ FPS = 60
 
 
 def main():
-    grid = BasicGrid(CELL_WIDTH, CELL_HEIGHT, MARGIN, CELLS_IN_ROW)
+    grid = BasicGrid(
+        grid_info=(CELL_WIDTH, CELL_HEIGHT, MARGIN),
+        grid_bounds=(CELLS_IN_ROW, CELLS_IN_ROW)
+    )
 
     pygame.init()
 
-    WINDOW_SIZE = grid.screen_size()
-    screen = pygame.display.set_mode(WINDOW_SIZE)
+    window_size = grid.screen_size()
+    screen = pygame.display.set_mode(window_size)
 
     pygame.display.set_caption('UnclePy')
 
@@ -50,13 +52,12 @@ def main():
                     snake.direction = Directions.UP
                 if event.key == pygame.K_DOWN and snake.direction != Directions.UP:
                     snake.direction = Directions.DOWN
-
         try:
             snake.move()
-        except (OutOfCellsBoundError, SnakeTwistedError):
-            snake = UnclePy(grid, RED, FPS)
+        except (OutOfGridBoundsError, SnakeTwistedError, SnakeHeadBeatenError):
             grid.clear()
-
+            del grid.structures[-1]
+            snake = UnclePy(grid, RED, FPS, 60)
         # Set the screen background
         screen.fill(BLACK)
 

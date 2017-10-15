@@ -21,6 +21,7 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('../../src'))
 sys.path.insert(0, os.path.abspath('../../src/exceptions'))
+sys.path.insert(0, os.path.abspath('../../src/grid'))
 sys.path.insert(0, os.path.abspath('../../src/tests'))
 # sys.path.append('/home/ilia/SoftwareDeveloper/Gamedev/UnclePy')
 
@@ -42,6 +43,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
+    'sphinx_autodoc_annotation',
     'sphinxcontrib.napoleon'
 ]
 

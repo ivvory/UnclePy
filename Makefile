@@ -20,16 +20,27 @@ run:
 .PHONY: doc
 doc:
 	@sphinx-apidoc -f -o $(SPHINX_RSTDIR)/exceptions $(SRCDIR)/exceptions
+	@sphinx-apidoc -f -o $(SPHINX_RSTDIR)/grid $(SRCDIR)/grid
 	@sphinx-apidoc -f -o $(SPHINX_RSTDIR)/tests $(SRCDIR)/tests
 	@sphinx-apidoc -f -o $(SPHINX_RSTDIR) $(SRCDIR)
 	@make sphinx c=html
 	@google-chrome $(ABS_DIR)/$(SPHINX_BUILDDIR)/html/index.html
 
 
+.PHONY: test
+test: testgrid testsnake
+	@python -m unittest src.tests -v
+
+.PHONY: testgrid
+testgrid:
+	@python -m unittest src.tests.test_grid -v
+
+.PHONY: testsnake
+testsnake:
+	@python -m unittest src.tests.test_snake -v
+
+
 # make sphinx c=help
 .PHONY: sphinx
 sphinx:
 	@python -msphinx -M $(c) "$(SPHINX_SOURCEDIR)" "$(SPHINX_BUILDDIR)" $(SPHINX_OPTS)
-
-
-#https://developer.ridgerun.com/wiki/index.php/How_to_generate_sphinx_documentation_for_python_code_running_in_an_embedded_system#Generating_.rst_files

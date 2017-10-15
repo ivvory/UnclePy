@@ -7,6 +7,7 @@ Welcome to UnclePy's documentation!
 
    rst/exceptions/modules
    rst/tests/modules
+   rst/grid/modules
    rst/modules
 
 
