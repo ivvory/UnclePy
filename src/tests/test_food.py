@@ -1,9 +1,8 @@
 import unittest
 
-from src.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError
 from src.food import Food
 from src.grid.grid import BasicGrid, GridBounds
-from src.snake import UnclePy, Directions
+from src.snake import UnclePy
 
 
 class TestUnclePy(unittest.TestCase):
@@ -23,7 +22,7 @@ class TestUnclePy(unittest.TestCase):
             grid_bounds=GridBounds(self.cells_in_row, self.cells_in_column),
         )
         self.snake = UnclePy(self.grid, self.snake_color, self.fps)
-        self.food = Food(self.grid, (7, 0), (0, 255, 0), 1)
+        self.food = Food(self.grid, self.grid.get_cell(7, 0), (0, 255, 0), 1)
 
     def test_(self):
         previous_tail = self.snake.tail

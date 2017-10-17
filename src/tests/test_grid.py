@@ -51,7 +51,6 @@ class BasicGridTest(unittest.TestCase):
 
     def test_clear(self):
         snake = UnclePy(self.grid, (255, 0, 0), 60)
-        self.grid.structures.append(snake)
         self.assertTrue(len(self.grid.get_owner_cells(snake)) > 0)
 
         self.grid.clear()

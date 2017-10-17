@@ -2,7 +2,6 @@ import pygame
 
 from src.exceptions.grid_exceptions import OutOfGridBoundsError
 from src.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError
-from src.food import Food
 from src.grid.grid import BasicGrid
 from src.snake import UnclePy, Directions
 
@@ -33,10 +32,10 @@ def main():
 
     # Used to manage how fast the screen updates
     clock = pygame.time.Clock()
-    speed = 1
+    speed = 30
     snake = UnclePy(grid, RED, FPS, speed)
-    Food(grid, (7, 0), GREEN, 2)
-    Food(grid, (8, 0), GREEN, 3)
+    grid.add_food(GREEN, 2)
+    grid.add_food(GREEN, 3)
 
     done = False
     while not done:
@@ -56,7 +55,6 @@ def main():
             snake.move()
         except (OutOfGridBoundsError, SnakeTwistedError, SnakeHeadBeatenError):
             grid.clear()
-            del grid.structures[-1]
             snake = UnclePy(grid, RED, FPS, speed)
 
         # Draw the grid

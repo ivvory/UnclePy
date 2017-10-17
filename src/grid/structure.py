@@ -1,7 +1,6 @@
 class GridStructure:
     def __init__(self, grid, cells, color):
         self.grid = grid
-        self.grid.structures += [self]
         self.color = color
 
         self.cells = []

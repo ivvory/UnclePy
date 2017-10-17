@@ -1,7 +1,9 @@
 import itertools
+import random
 from collections import namedtuple
 
 from src.exceptions.grid_exceptions import OutOfGridBoundsError
+from src.food import Food
 from src.grid.cell import GridCell
 from src.grid.structure import GridStructure
 
@@ -28,8 +30,7 @@ class BasicGrid:
 
         self.cell_height, self.cell_width, self.cell_margin = grid_info
         self.bounds = GridBounds(*grid_bounds)
-        self.color = (0, 0, 0)
-        self.structures = []
+        self.color = (10, 0, 0)
 
         self._cells = self._create_grid_cells()
         self.main_structure = GridStructure(self, self._cells, self.color)
@@ -37,6 +38,10 @@ class BasicGrid:
     @property
     def cells(self):
         return self._cells
+
+    def add_food(self, color, value):
+        free_cell = random.choice(self.free_cells())
+        Food(self, free_cell, color, value)
 
     def draw(self, screen, pygame):
         """
@@ -82,6 +87,9 @@ class BasicGrid:
 
     def get_cells(self, coordinates: list) -> list:
         return [self.get_cell(*coord) for coord in coordinates]
+
+    def free_cells(self):
+        return [c for c in self.cells if c.owner is self.main_structure]
 
     def bring_back_cells(self, cells: list):
         self.main_structure + cells
