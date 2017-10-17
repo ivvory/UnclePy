@@ -1,6 +1,7 @@
 from src.exceptions.grid_exceptions import OutOfGridBoundsError
 from src.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError
 from src.exceptions.snake_exceptions import SpeedIsNotPositiveException
+from src.food import Food
 from src.grid.cell import GridCell
 from src.grid.grid import BasicGrid
 from src.grid.structure import GridStructure
@@ -40,6 +41,7 @@ class UnclePy(GridStructure):
         self.direction = Directions.RIGHT
         self.frame_counter = 0
         """int: counts how many times a move() method was called to manage a speed of the snake."""
+        self.eat = False
 
     @property
     def head(self) -> GridCell:
@@ -83,6 +85,7 @@ class UnclePy(GridStructure):
             return
 
         self.frame_counter = 0
+        self.eat = False
 
         try:
             self.move_head()
@@ -91,7 +94,8 @@ class UnclePy(GridStructure):
         except SnakeTwistedError:
             raise
 
-        self.move_tail()
+        if not self.eat:
+            self.move_tail()
 
     def move_head(self):
         """Move the head to another cell according current direction."""
@@ -111,6 +115,9 @@ class UnclePy(GridStructure):
 
         if new_head.owner is self:
             raise SnakeTwistedError()
+
+        if isinstance(new_head.owner, Food):
+            self.eat = True
 
         new_head.occupy(self)
 

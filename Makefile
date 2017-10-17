@@ -39,6 +39,10 @@ testgrid:
 testsnake:
 	@python -m unittest src.tests.test_snake -v
 
+.PHONY: testfood
+testfood:
+	@python -m unittest src.tests.test_food -v
+
 
 # make sphinx c=help
 .PHONY: sphinx

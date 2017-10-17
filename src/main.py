@@ -2,6 +2,7 @@ import pygame
 
 from src.exceptions.grid_exceptions import OutOfGridBoundsError
 from src.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError
+from src.food import Food
 from src.grid.grid import BasicGrid
 from src.snake import UnclePy, Directions
 
@@ -34,6 +35,7 @@ def main():
     clock = pygame.time.Clock()
     speed = 1
     snake = UnclePy(grid, RED, FPS, speed)
+    food = Food(grid, GREEN)
 
     done = False
     while not done:
