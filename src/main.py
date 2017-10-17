@@ -35,7 +35,8 @@ def main():
     clock = pygame.time.Clock()
     speed = 1
     snake = UnclePy(grid, RED, FPS, speed)
-    food = Food(grid, GREEN)
+    Food(grid, (7, 0), GREEN, 2)
+    Food(grid, (8, 0), GREEN, 3)
 
     done = False
     while not done:

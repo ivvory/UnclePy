@@ -41,7 +41,8 @@ class UnclePy(GridStructure):
         self.direction = Directions.RIGHT
         self.frame_counter = 0
         """int: counts how many times a move() method was called to manage a speed of the snake."""
-        self.eat = False
+        self.eaten = False
+        self.scores = 0
 
     @property
     def head(self) -> GridCell:
@@ -85,7 +86,7 @@ class UnclePy(GridStructure):
             return
 
         self.frame_counter = 0
-        self.eat = False
+        self.eaten = False
 
         try:
             self.move_head()
@@ -94,7 +95,7 @@ class UnclePy(GridStructure):
         except SnakeTwistedError:
             raise
 
-        if not self.eat:
+        if not self.eaten:
             self.move_tail()
 
     def move_head(self):
@@ -117,7 +118,7 @@ class UnclePy(GridStructure):
             raise SnakeTwistedError()
 
         if isinstance(new_head.owner, Food):
-            self.eat = True
+            self.eat(new_head.owner)
 
         new_head.occupy(self)
 
@@ -126,3 +127,8 @@ class UnclePy(GridStructure):
 
         thrown_tail = self.cells[0]
         self.grid.bring_back_cells([thrown_tail])
+
+    def eat(self, food: Food):
+        self.eaten = True
+        self.scores += food.value
+        print(f'{food.value} scores added.')
