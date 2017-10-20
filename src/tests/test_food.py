@@ -21,10 +21,16 @@ class TestUnclePy(unittest.TestCase):
             grid_info=(self.cell_height, self.cell_width, self.margin),
             grid_bounds=GridBounds(self.cells_in_row, self.cells_in_column),
         )
-        self.snake = UnclePy(self.grid, self.snake_color, self.fps)
+        self.snake = self.snake = UnclePy(
+            self.grid,
+            self.grid.get_cell(0, 0),
+            7,
+            self.snake_color,
+            self.fps
+        )
         self.food = Food(self.grid, self.grid.get_cell(7, 0), (0, 255, 0), 1)
 
-    def test_(self):
+    def test_eat(self):
         previous_tail = self.snake.tail
         self.snake.move()
         self.assertIs(previous_tail, self.snake.tail)

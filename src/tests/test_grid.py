@@ -50,7 +50,7 @@ class BasicGridTest(unittest.TestCase):
         self.assertEqual(len(self.grid.get_foreign_cells(None)), len(self.grid.cells) - 1)
 
     def test_clear(self):
-        snake = UnclePy(self.grid, (255, 0, 0), 60)
+        snake = self.snake = UnclePy(self.grid, self.grid.get_cell(55, 0), 5, (1, 0, 0), 60)
         self.assertTrue(len(self.grid.get_owner_cells(snake)) > 0)
 
         self.grid.clear()

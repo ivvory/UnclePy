@@ -33,7 +33,7 @@ def main():
     # Used to manage how fast the screen updates
     clock = pygame.time.Clock()
     speed = 30
-    snake = UnclePy(grid, RED, FPS, speed)
+    snake = grid.add_snake(5, RED, FPS, speed)
     grid.add_food(GREEN, 2)
     grid.add_food(GREEN, 3)
 
@@ -55,7 +55,7 @@ def main():
             snake.move()
         except (OutOfGridBoundsError, SnakeTwistedError, SnakeHeadBeatenError):
             grid.clear()
-            snake = UnclePy(grid, RED, FPS, speed)
+            snake = grid.add_snake(5, RED, FPS, speed)
 
         # Draw the grid
         grid.draw(screen, pygame)

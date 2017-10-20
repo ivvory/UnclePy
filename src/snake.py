@@ -1,9 +1,10 @@
+from typing import List
+
 from src.exceptions.grid_exceptions import OutOfGridBoundsError
-from src.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError
+from src.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError, LongDisposeLengthException
 from src.exceptions.snake_exceptions import SpeedIsNotPositiveException
 from src.food import Food
 from src.grid.cell import GridCell
-from src.grid.grid import BasicGrid
 from src.grid.structure import GridStructure
 
 
@@ -20,7 +21,7 @@ class UnclePy(GridStructure):
         its management.
     """
 
-    def __init__(self, grid: BasicGrid, color: tuple, fps: int, speed=1):
+    def __init__(self, grid, cell, length, color: tuple, fps: int, speed=1):
         """
         Declare required variables and dispose the snake on the screen.
 
@@ -30,15 +31,15 @@ class UnclePy(GridStructure):
             fps: frequency of screen refreshing.
             speed (:obj:`int`, optional): Speed of the snake on the screen.
         """
+        self.direction = Directions.RIGHT
 
-        #  Dispose the snake in the top left corner of the grid
-        coordinates = [(i, 0) for i in range(7)]
-        super().__init__(grid, grid.get_cells(coordinates), color)
+        super().__init__(grid, [], color)
+        discovered_cells = self.get_dispose_cells(cell, length)
+        self + discovered_cells
 
         self.fps = fps
         self._speed = speed
 
-        self.direction = Directions.RIGHT
         self.frame_counter = 0
         """int: counts how many times a move() method was called to manage a speed of the snake."""
         self.eaten = False
@@ -131,4 +132,72 @@ class UnclePy(GridStructure):
     def eat(self, food: Food):
         self.eaten = True
         self.scores += food.value
+        self.grid.add_food((0, 0, 255), 2)
         print(f'{food.value} scores added.')
+
+    def get_dispose_cells(self, tail_cell: GridCell, length) -> List[GridCell]:
+        """Get cells where the snake will be disposed.
+
+        Note:
+            Change `direction` to the one from tail to found head.
+
+        Args:
+            tail_cell: it should be a tail cell.
+            length:
+
+        Returns:
+            :obj:`list` of :obj:`GridCell`: Cells to dispose.
+        """
+        half_grid_x_len = self.grid.bounds.cells_in_row / 2
+        half_grid_y_len = self.grid.bounds.cells_in_column / 2
+
+        if length > half_grid_x_len and length > half_grid_y_len:
+            raise LongDisposeLengthException()
+
+        all_directions = Directions.RIGHT, Directions.LEFT, Directions.UP, Directions.DOWN
+        for d in all_directions:
+            cells = self._discover_direction(tail_cell, d, length)
+
+            if cells:
+                self.direction = d
+                break
+        else:
+            cells = []
+
+        return [tail_cell] + cells
+
+    def _discover_direction(self, cell, direction, length):
+        tail_x, tail_y = cell.coordinates
+
+        if direction == Directions.RIGHT:
+            good_dispose_direction = tail_x + length < self.grid.bounds.cells_in_row / 2
+        elif direction == Directions.LEFT:
+            good_dispose_direction = tail_x - length > self.grid.bounds.cells_in_row / 2
+        elif direction == Directions.UP:
+            good_dispose_direction = tail_y - length > self.grid.bounds.cells_in_column / 2
+        elif direction == Directions.DOWN:
+            good_dispose_direction = tail_y + length < self.grid.bounds.cells_in_column / 2
+
+        if not good_dispose_direction:
+            return False
+
+        cells = self._get_cells_from(cell, direction, length)
+
+        if not all(self.grid.is_free_cell(c) for c in cells):
+            return False
+
+        return cells
+
+    def _get_cells_from(self, cell, direction, count):
+        cell_x, cell_y = cell.coordinates
+
+        if direction == Directions.RIGHT:
+            cell_coordinates = [(cell_x + i, cell_y) for i in range(1, count)]
+        elif direction == Directions.LEFT:
+            cell_coordinates = [(cell_x - i, cell_y) for i in range(1, count)]
+        elif direction == Directions.UP:
+            cell_coordinates = [(cell_x, cell_y - i) for i in range(1, count)]
+        elif direction == Directions.DOWN:
+            cell_coordinates = [(cell_x, cell_y + i) for i in range(1, count)]
+
+        return self.grid.get_cells(cell_coordinates)

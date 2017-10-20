@@ -6,7 +6,7 @@ from src.exceptions.grid_exceptions import OutOfGridBoundsError
 from src.food import Food
 from src.grid.cell import GridCell
 from src.grid.structure import GridStructure
-
+from src.snake import UnclePy
 
 GridBounds = namedtuple('GridBounds', ['cells_in_row', 'cells_in_column'])
 
@@ -42,6 +42,10 @@ class BasicGrid:
     def add_food(self, color, value):
         free_cell = random.choice(self.free_cells())
         Food(self, free_cell, color, value)
+
+    def add_snake(self, length, color, fps, speed):
+        free_cell = random.choice(self.free_cells())
+        return UnclePy(self, free_cell, length, color, fps, speed)
 
     def draw(self, screen, pygame):
         """
@@ -89,7 +93,10 @@ class BasicGrid:
         return [self.get_cell(*coord) for coord in coordinates]
 
     def free_cells(self):
-        return [c for c in self.cells if c.owner is self.main_structure]
+        return [c for c in self.cells if self.is_free_cell(c)]
+
+    def is_free_cell(self, cell):
+        return cell.owner is self.main_structure
 
     def bring_back_cells(self, cells: list):
         self.main_structure + cells
