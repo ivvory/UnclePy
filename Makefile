@@ -14,7 +14,7 @@ SPHINX_OPTS       =
 
 .PHONY: run
 run:
-	@python -m src.main
+	@python -m src.run
 
 
 .PHONY: doc

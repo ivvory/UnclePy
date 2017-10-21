@@ -1,3 +1,4 @@
+from enum import Enum
 from typing import List
 
 from src.exceptions.grid_exceptions import OutOfGridBoundsError
@@ -8,7 +9,7 @@ from src.grid.cell import GridCell
 from src.grid.structure import GridStructure
 
 
-class Directions:
+class Directions(Enum):
     LEFT = 'Left'
     UP = 'Up'
     RIGHT = 'Right'
@@ -21,14 +22,13 @@ class UnclePy(GridStructure):
         its management.
     """
 
-    def __init__(self, grid, cell, length, color: tuple, fps: int, speed=1):
+    def __init__(self, grid, cell, length, color: tuple, speed=1):
         """
         Declare required variables and dispose the snake on the screen.
 
         Args:
             grid: grid where snake will be places.
             color: color of the snake on the screen.
-            fps: frequency of screen refreshing.
             speed (:obj:`int`, optional): Speed of the snake on the screen.
         """
         self.direction = Directions.RIGHT
@@ -37,7 +37,6 @@ class UnclePy(GridStructure):
         discovered_cells = self.get_dispose_cells(cell, length)
         self + discovered_cells
 
-        self.fps = fps
         self._speed = speed
 
         self.frame_counter = 0
@@ -74,19 +73,11 @@ class UnclePy(GridStructure):
         """
         Moves the snake according to the current direction and speed.
 
-        Uses `self.counter` and `self.fps` to imitate the speed.
-
         Raises:
             SnakeHeadBeatenError: if coordinates of a new head goes beyond the
                 borders of the grid.
             SnakeTwistedError: if new head is one the snake cells.
         """
-
-        if self.frame_counter < (self.fps - 1) / self.speed:
-            self.frame_counter += 1
-            return
-
-        self.frame_counter = 0
         self.eaten = False
 
         try:
