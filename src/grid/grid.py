@@ -43,9 +43,9 @@ class BasicGrid:
         free_cell = random.choice(self.free_cells())
         Food(self, free_cell, color, value)
 
-    def add_snake(self, length, color, speed):
+    def add_snake(self, length, color):
         free_cell = random.choice(self.free_cells())
-        return UnclePy(self, free_cell, length, color, speed)
+        return UnclePy(self, free_cell, length, color)
 
     def draw(self, screen, pygame):
         """

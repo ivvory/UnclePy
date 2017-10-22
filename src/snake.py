@@ -3,7 +3,6 @@ from typing import List
 
 from src.exceptions.grid_exceptions import OutOfGridBoundsError
 from src.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError, LongDisposeLengthException
-from src.exceptions.snake_exceptions import SpeedIsNotPositiveException
 from src.food import Food
 from src.grid.cell import GridCell
 from src.grid.structure import GridStructure
@@ -22,14 +21,13 @@ class UnclePy(GridStructure):
         its management.
     """
 
-    def __init__(self, grid, cell, length, color: tuple, speed=1):
+    def __init__(self, grid, cell, length, color: tuple):
         """
         Declare required variables and dispose the snake on the screen.
 
         Args:
             grid: grid where snake will be places.
             color: color of the snake on the screen.
-            speed (:obj:`int`, optional): Speed of the snake on the screen.
         """
         self.direction = Directions.RIGHT
 
@@ -37,12 +35,11 @@ class UnclePy(GridStructure):
         discovered_cells = self.get_dispose_cells(cell, length)
         self + discovered_cells
 
-        self._speed = speed
-
-        self.frame_counter = 0
-        """int: counts how many times a move() method was called to manage a speed of the snake."""
         self.eaten = False
         self.scores = 0
+
+        self._speed = 1
+        self._difficulty = 0.01
 
     @property
     def head(self) -> GridCell:
@@ -62,16 +59,8 @@ class UnclePy(GridStructure):
 
         return self._speed
 
-    @speed.setter
-    def speed(self, speed):
-        if speed <= 0:
-            raise SpeedIsNotPositiveException('Speed must be greater than 0.')
-
-        self.speed = speed
-
     def move(self):
-        """
-        Moves the snake according to the current direction and speed.
+        """Move the snake according to the current `direction`.
 
         Raises:
             SnakeHeadBeatenError: if coordinates of a new head goes beyond the
@@ -90,8 +79,11 @@ class UnclePy(GridStructure):
         if not self.eaten:
             self.move_tail()
 
+        self._speed += self._difficulty
+        print(self.speed)
+
     def move_head(self):
-        """Move the head to another cell according current direction."""
+        """Move the head."""
 
         x, y = self.head.coordinates
 
@@ -133,8 +125,8 @@ class UnclePy(GridStructure):
             Change `direction` to the one from tail to found head.
 
         Args:
-            tail_cell: it should be a tail cell.
-            length:
+            tail_cell: future tail.
+            length: length of a future snake.
 
         Returns:
             :obj:`list` of :obj:`GridCell`: Cells to dispose.

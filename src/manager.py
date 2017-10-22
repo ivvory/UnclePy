@@ -26,13 +26,12 @@ class GameManager:
     def dispose(self):
         self.grid.clear()
 
-        self.snake = self.grid.add_snake(5, (0, 100, 100), 5)
+        self.snake = self.grid.add_snake(5, (0, 100, 100))
         self.grid.add_food((100, 100, 0), 3)
         self.grid.add_food((100, 100, 0), 3)
 
     def start(self):
         frame_counter = 0
-        speed = 60
 
         self.dispose()
         self.grid.draw(self.screen, pygame)
@@ -40,12 +39,6 @@ class GameManager:
 
         done = False
         while not done:
-            if frame_counter < (FPS - 1) / speed:
-                frame_counter += 1
-                continue
-
-            frame_counter = 0
-
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     done = True
@@ -59,14 +52,18 @@ class GameManager:
                     if event.key == pygame.K_DOWN and self.snake.direction != Directions.UP:
                         self.snake.direction = Directions.DOWN
             try:
-                self.snake.move()
+                if frame_counter < (FPS - 1) / self.snake.speed:
+                    frame_counter += 1
+                else:
+                    self.snake.move()
+                    frame_counter = 0
             except (OutOfGridBoundsError, SnakeTwistedError, SnakeHeadBeatenError):
                 print(f'Total scores {self.snake.scores}')
                 break
 
             self.grid.draw(self.screen, pygame)
 
-            self.clock.tick(60)
+            self.clock.tick(500)
             pygame.display.flip()
 
 
