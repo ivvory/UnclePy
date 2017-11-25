@@ -1,8 +1,8 @@
 import unittest
 
-from src.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError
-from src.grid.grid import BasicGrid, GridBounds
-from src.snake import UnclePy, Directions
+from two_d.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError
+from two_d.grid.grid import BasicGrid, GridBounds
+from two_d.snake import UnclePy, Directions
 
 
 class TestUnclePy(unittest.TestCase):

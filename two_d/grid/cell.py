@@ -1,4 +1,4 @@
-from src.grid.structure import GridStructure
+from two_d.grid.structure import GridStructure
 
 
 class GridCell:

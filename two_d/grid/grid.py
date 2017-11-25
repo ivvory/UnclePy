@@ -2,11 +2,11 @@ import itertools
 import random
 from collections import namedtuple
 
-from src.exceptions.grid_exceptions import OutOfGridBoundsError
-from src.food import Food
-from src.grid.cell import GridCell
-from src.grid.structure import GridStructure
-from src.snake import UnclePy
+from two_d.exceptions.grid_exceptions import OutOfGridBoundsError
+from two_d.food import Food
+from two_d.grid.cell import GridCell
+from two_d.grid.structure import GridStructure
+from two_d.snake import UnclePy
 
 GridBounds = namedtuple('GridBounds', ['cells_in_row', 'cells_in_column'])
 

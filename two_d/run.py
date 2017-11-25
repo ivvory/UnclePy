@@ -1,4 +1,4 @@
-from src.manager import GameManager
+from two_d.manager import GameManager
 
 
 def run():

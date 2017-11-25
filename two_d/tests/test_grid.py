@@ -1,8 +1,8 @@
 import unittest
 
-from src.exceptions.grid_exceptions import OutOfGridBoundsError
-from src.grid.grid import BasicGrid, GridBounds
-from src.snake import UnclePy
+from two_d.exceptions.grid_exceptions import OutOfGridBoundsError
+from two_d.grid.grid import BasicGrid, GridBounds
+from two_d.snake import UnclePy
 
 
 class TestGridStructures(unittest.TestCase):

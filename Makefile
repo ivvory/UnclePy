@@ -2,7 +2,7 @@ ABS_DIR = $(shell pwd)
 
 
 PROJECT_NAME = UnclePy
-SRCDIR       = src
+SRCDIR       = two_d
 DOCDIR       = docs
 
 
@@ -14,7 +14,24 @@ SPHINX_OPTS       =
 
 .PHONY: run
 run:
-	@python -m src.run
+	@python -m $(SRCDIR).run
+
+
+.PHONY: test
+test: testgrid testsnake
+	@python -m unittest $(SRCDIR).tests -v
+
+.PHONY: testgrid
+testgrid:
+	@python -m unittest $(SRCDIR).tests.test_grid -v
+
+.PHONY: testsnake
+testsnake:
+	@python -m unittest $(SRCDIR).tests.test_snake -v
+
+.PHONY: testfood
+testfood:
+	@python -m unittest $(SRCDIR).tests.test_food -v
 
 
 .PHONY: doc
@@ -25,24 +42,6 @@ doc:
 	@sphinx-apidoc -f -o $(SPHINX_RSTDIR) $(SRCDIR)
 	@make sphinx c=html
 	@google-chrome $(ABS_DIR)/$(SPHINX_BUILDDIR)/html/index.html
-
-
-.PHONY: test
-test: testgrid testsnake
-	@python -m unittest src.tests -v
-
-.PHONY: testgrid
-testgrid:
-	@python -m unittest src.tests.test_grid -v
-
-.PHONY: testsnake
-testsnake:
-	@python -m unittest src.tests.test_snake -v
-
-.PHONY: testfood
-testfood:
-	@python -m unittest src.tests.test_food -v
-
 
 # make sphinx c=help
 .PHONY: sphinx

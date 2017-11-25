@@ -1,11 +1,11 @@
 from enum import Enum
 from typing import List
 
-from src.exceptions.grid_exceptions import OutOfGridBoundsError
-from src.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError, LongDisposeLengthException
-from src.food import Food
-from src.grid.cell import GridCell
-from src.grid.structure import GridStructure
+from two_d.exceptions.grid_exceptions import OutOfGridBoundsError
+from two_d.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError, LongDisposeLengthException
+from two_d.food import Food
+from two_d.grid.cell import GridCell
+from two_d.grid.structure import GridStructure
 
 
 class Directions(Enum):
@@ -29,7 +29,7 @@ class UnclePy(GridStructure):
             grid: grid where snake will be places.
             color: color of the snake on the screen.
         """
-        self.direction = Directions.RIGHT
+        direction = Directions.RIGHT
 
         super().__init__(grid, [], color)
         discovered_cells = self.get_dispose_cells(cell, length)

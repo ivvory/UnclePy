@@ -19,10 +19,10 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../src'))
-sys.path.insert(0, os.path.abspath('../src/exceptions'))
-sys.path.insert(0, os.path.abspath('../src/grid'))
-sys.path.insert(0, os.path.abspath('../src/tests'))
+sys.path.insert(0, os.path.abspath('../two_d'))
+# sys.path.insert(0, os.path.abspath('../two_d/exceptions'))
+# sys.path.insert(0, os.path.abspath('../two_d/grid'))
+# sys.path.insert(0, os.path.abspath('../two_d/tests'))
 
 
 # -- General configuration ------------------------------------------------

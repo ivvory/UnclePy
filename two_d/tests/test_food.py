@@ -1,8 +1,8 @@
 import unittest
 
-from src.food import Food
-from src.grid.grid import BasicGrid, GridBounds
-from src.snake import UnclePy
+from two_d.food import Food
+from two_d.grid.grid import BasicGrid, GridBounds
+from two_d.snake import UnclePy
 
 
 class TestUnclePy(unittest.TestCase):
