@@ -1,9 +1,10 @@
 ABS_DIR = $(shell pwd)
 
 
-PROJECT_NAME = UnclePy
-SRCDIR       = two_d
-DOCDIR       = docs
+PROJECT_NAME    = UnclePy
+2d_SRCDIR       = two_d
+3d_SRCDIR       = three_d
+DOCDIR          = docs
 
 
 SPHINX_SOURCEDIR  = $(DOCDIR)
@@ -12,26 +13,22 @@ SPHINX_RSTDIR     = $(DOCDIR)/rst
 SPHINX_OPTS       =
 
 
-.PHONY: run
-run:
-	@python -m $(SRCDIR).run
+.PHONY: run2d
+run2d:
+	@python -m $(2d_SRCDIR).run
+
+.PHONY: test2d
+test2d:
+	@python -m unittest $(2d_SRCDIR).tests -v
 
 
-.PHONY: test
-test: testgrid testsnake
-	@python -m unittest $(SRCDIR).tests -v
+.PHONY: run3d
+run3d:
+	@cd $(3d_SRCDIR)/build && cmake .. && make && ./unclepy
 
-.PHONY: testgrid
-testgrid:
-	@python -m unittest $(SRCDIR).tests.test_grid -v
-
-.PHONY: testsnake
-testsnake:
-	@python -m unittest $(SRCDIR).tests.test_snake -v
-
-.PHONY: testfood
-testfood:
-	@python -m unittest $(SRCDIR).tests.test_food -v
+#.PHONY: test3d
+#test3d: testgrid testsnake
+#	@python -m unittest $(SRCDIR).tests -v
 
 
 .PHONY: doc
