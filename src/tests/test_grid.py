@@ -1,8 +1,8 @@
 import unittest
 
-from two_d.exceptions.grid_exceptions import OutOfGridBoundsError
-from two_d.grid.grid import BasicGrid, GridBounds
-from two_d.snake import UnclePy
+from src.exceptions.grid_exceptions import OutOfGridBoundsError
+from src.grid.grid import BasicGrid, GridBounds
+from src.snake import UnclePy
 
 
 class TestGridStructures(unittest.TestCase):
@@ -50,7 +50,7 @@ class BasicGridTest(unittest.TestCase):
         self.assertEqual(len(self.grid.get_foreign_cells(None)), len(self.grid.cells) - 1)
 
     def test_clear(self):
-        snake = self.snake = UnclePy(self.grid, self.grid.get_cell(55, 0), 5, (1, 0, 0), 60)
+        snake = self.snake = UnclePy(self.grid, self.grid.get_cell(55, 0), 5, (1, 0, 0))
         self.assertTrue(len(self.grid.get_owner_cells(snake)) > 0)
 
         self.grid.clear()

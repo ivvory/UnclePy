@@ -1,8 +1,8 @@
 import unittest
 
-from two_d.food import Food
-from two_d.grid.grid import BasicGrid, GridBounds
-from two_d.snake import UnclePy
+from src.food import Food
+from src.grid.grid import BasicGrid, GridBounds
+from src.snake import UnclePy
 
 
 class TestUnclePy(unittest.TestCase):
@@ -26,7 +26,6 @@ class TestUnclePy(unittest.TestCase):
             self.grid.get_cell(0, 0),
             7,
             self.snake_color,
-            self.fps
         )
         self.food = Food(self.grid, self.grid.get_cell(7, 0), (0, 255, 0), 1)
 

@@ -4,4 +4,3 @@ CELL_HEIGHT = 6
 MARGIN = 1
 
 FPS = 60
-

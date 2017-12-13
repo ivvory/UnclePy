@@ -1,5 +1,5 @@
-# from two_d.grid.grid import BasicGrid
-from two_d.grid.structure import GridStructure
+# from src.grid.grid import BasicGrid
+from src.grid.structure import GridStructure
 
 
 class Food(GridStructure):

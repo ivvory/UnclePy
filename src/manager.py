@@ -1,10 +1,10 @@
 import pygame
 
-from two_d.config import CELL_WIDTH, CELL_HEIGHT, MARGIN, CELLS_IN_ROW, FPS
-from two_d.exceptions.grid_exceptions import OutOfGridBoundsError
-from two_d.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError
-from two_d.grid.grid import BasicGrid
-from two_d.snake import Directions
+from src.config import CELL_WIDTH, CELL_HEIGHT, MARGIN, CELLS_IN_ROW, FPS
+from src.exceptions.grid_exceptions import OutOfGridBoundsError
+from src.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError
+from src.grid.grid import BasicGrid
+from src.snake import Directions
 
 
 class GameManager:
