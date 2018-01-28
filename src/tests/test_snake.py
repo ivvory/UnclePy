@@ -27,7 +27,6 @@ class TestUnclePy(unittest.TestCase):
             self.grid.get_cell(self.cells_in_row - self.length + 1, 0),
             self.length,
             self.snake_color,
-            self.fps
         )
 
     def test_normal_move(self):
