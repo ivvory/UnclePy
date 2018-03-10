@@ -110,18 +110,9 @@ class UnclePy(GridStructure):
     def move_head(self):
         """Move the head."""
 
-        x, y = self.head.coordinates
+        new_x, new_y = self.change_coordinates(self.head.coordinates, self.direction)
 
-        if self.direction == Directions.RIGHT:
-            x += 1
-        elif self.direction == Directions.LEFT:
-            x -= 1
-        elif self.direction == Directions.UP:
-            y -= 1
-        elif self.direction == Directions.DOWN:
-            y += 1
-
-        new_head = self.grid.get_cell(x, y)
+        new_head = self.grid.get_cell(new_x, new_y)
 
         if new_head.owner is self:
             raise SnakeTwistedError()
@@ -142,6 +133,18 @@ class UnclePy(GridStructure):
         self.scores += food.value
         self.grid.add_food((0, 0, 255), 2)
         # print(f'{food.value} scores added.')
+
+    def available_directions(self):
+        for d in list(Directions):
+            new_x, new_y = self.change_coordinates(self.head.coordinates, d)
+
+            try:
+                checking_cell = self.grid.get_cell(new_x, new_y)
+            except OutOfGridBoundsError:
+                continue
+
+            if self.grid.is_free_cell(checking_cell):
+                yield d
 
     def get_dispose_cells(self, tail_cell: GridCell, length) -> List[GridCell]:
         """Get cells where the snake will be disposed.
@@ -209,3 +212,18 @@ class UnclePy(GridStructure):
             cell_coordinates = [(cell_x, cell_y + i) for i in range(1, count)]
 
         return self.grid.get_cells(cell_coordinates)
+
+    @staticmethod
+    def change_coordinates(coordinates, direction):
+        x, y = coordinates
+
+        if direction == Directions.RIGHT:
+            x += 1
+        elif direction == Directions.LEFT:
+            x -= 1
+        elif direction == Directions.UP:
+            y -= 1
+        elif direction == Directions.DOWN:
+            y += 1
+
+        return x, y

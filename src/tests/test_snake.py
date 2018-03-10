@@ -70,3 +70,8 @@ class TestUnclePy(unittest.TestCase):
             self.snake._direction = prev_d
             with self.assertRaises(SnakeBackwardMoveError):
                 self.snake.direction = new_d
+
+    def test_available_directions(self):
+        should_be_available = [Directions.LEFT, Directions.DOWN]
+
+        self.assertListEqual(list(self.snake.available_directions()), should_be_available)

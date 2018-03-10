@@ -1,18 +1,22 @@
-class SpeedIsNotPositiveException(Exception):
+class SnakeException(Exception):
     pass
 
 
-class LongDisposeLengthException(Exception):
+class SpeedIsNotPositiveException(SnakeException):
     pass
 
 
-class SnakeTwistedError(Exception):
+class LongDisposeLengthException(SnakeException):
     pass
 
 
-class SnakeHeadBeatenError(Exception):
+class SnakeTwistedError(SnakeException):
     pass
 
 
-class SnakeBackwardMoveError(Exception):
+class SnakeHeadBeatenError(SnakeException):
+    pass
+
+
+class SnakeBackwardMoveError(SnakeException):
     pass
