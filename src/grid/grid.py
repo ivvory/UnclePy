@@ -45,6 +45,7 @@ class BasicGrid:
 
     def add_snake(self, length, color):
         free_cell = random.choice(self.free_cells())
+
         return UnclePy(self, free_cell, length, color)
 
     def draw(self, screen, pygame):

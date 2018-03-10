@@ -1,6 +1,6 @@
 import unittest
 
-from src.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError
+from src.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError, SnakeBackwardMoveError
 from src.grid.grid import BasicGrid, GridBounds
 from src.snake import UnclePy, Directions
 
@@ -61,3 +61,12 @@ class TestUnclePy(unittest.TestCase):
         assumed_coordinates = {(56, 0), (55, 0), (54, 0), (53, 0), (52, 0)}
         real_coordinates = set(c.coordinates for c in self.snake.cells)
         self.assertSetEqual(real_coordinates, assumed_coordinates)
+
+    def test_direction_setter(self):
+        considering_directions = Directions.RIGHT, Directions.LEFT, Directions.DOWN, Directions.UP
+        opposite_directions = Directions.LEFT, Directions.RIGHT, Directions.UP, Directions.DOWN
+
+        for prev_d, new_d in zip(opposite_directions, considering_directions):
+            self.snake._direction = prev_d
+            with self.assertRaises(SnakeBackwardMoveError):
+                self.snake.direction = new_d

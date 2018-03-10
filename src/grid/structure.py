@@ -13,19 +13,19 @@ class GridStructure:
         self.lose(cells)
 
     def conquer(self, cells: list):
-        """
+        """Occupies passed `cells` by itself.
 
         Args:
-
+            cells: occupying by snake
         """
         for c in cells:
             c.occupy(self)
 
     def lose(self, cells: list):
-        """
+        """Give back `cells` to the grid.
 
-        Args:
-
+        Params:
+            cells: giving back
         """
 
         self.grid.main_structure.conquer(cells)

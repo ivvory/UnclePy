@@ -12,3 +12,7 @@ class SnakeTwistedError(Exception):
 
 class SnakeHeadBeatenError(Exception):
     pass
+
+
+class SnakeBackwardMoveError(Exception):
+    pass

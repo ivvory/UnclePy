@@ -5,7 +5,7 @@ from src.grid.grid import BasicGrid, GridBounds
 from src.snake import UnclePy
 
 
-class TestUnclePy(unittest.TestCase):
+class TestSnakeFood(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.cell_height = 6

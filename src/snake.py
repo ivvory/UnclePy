@@ -2,7 +2,8 @@ from enum import Enum
 from typing import List
 
 from src.exceptions.grid_exceptions import OutOfGridBoundsError
-from src.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError, LongDisposeLengthException
+from src.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError, LongDisposeLengthException, \
+    SnakeBackwardMoveError
 from src.food import Food
 from src.grid.cell import GridCell
 from src.grid.structure import GridStructure
@@ -29,7 +30,7 @@ class UnclePy(GridStructure):
             grid: grid where snake will be places.
             color: color of the snake on the screen.
         """
-        direction = Directions.RIGHT
+        self._direction = None
 
         super().__init__(grid, [], color)
         discovered_cells = self.get_dispose_cells(cell, length)
@@ -40,6 +41,19 @@ class UnclePy(GridStructure):
 
         self._speed = 1
         self._difficulty = 0.01
+
+    @property
+    def direction(self):
+        """The direction to move."""
+
+        return self._direction
+
+    @direction.setter
+    def direction(self, new_dir):
+        if new_dir == self.opposite_direction():
+            raise SnakeBackwardMoveError()
+
+        self._direction = new_dir
 
     @property
     def head(self) -> GridCell:
@@ -58,6 +72,18 @@ class UnclePy(GridStructure):
         """int: speed of the snake's movement."""
 
         return self._speed
+
+    def opposite_direction(self):
+        """Return opposite direction for the current one."""
+
+        if self.direction == Directions.LEFT:
+            return Directions.RIGHT
+        if self.direction == Directions.RIGHT:
+            return Directions.LEFT
+        if self.direction == Directions.DOWN:
+            return Directions.UP
+        if self.direction == Directions.UP:
+            return Directions.DOWN
 
     def move(self):
         """Move the snake according to the current `direction`.
@@ -80,7 +106,6 @@ class UnclePy(GridStructure):
             self.move_tail()
 
         self._speed += self._difficulty
-        print(self.speed)
 
     def move_head(self):
         """Move the head."""
@@ -116,7 +141,7 @@ class UnclePy(GridStructure):
         self.eaten = True
         self.scores += food.value
         self.grid.add_food((0, 0, 255), 2)
-        print(f'{food.value} scores added.')
+        # print(f'{food.value} scores added.')
 
     def get_dispose_cells(self, tail_cell: GridCell, length) -> List[GridCell]:
         """Get cells where the snake will be disposed.
@@ -137,7 +162,7 @@ class UnclePy(GridStructure):
         if length > half_grid_x_len and length > half_grid_y_len:
             raise LongDisposeLengthException()
 
-        all_directions = Directions.RIGHT, Directions.LEFT, Directions.UP, Directions.DOWN
+        all_directions = list(Directions)
         for d in all_directions:
             cells = self._discover_direction(tail_cell, d, length)
 

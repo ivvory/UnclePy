@@ -2,9 +2,9 @@ import pygame
 
 from src.config import CELL_WIDTH, CELL_HEIGHT, MARGIN, CELLS_IN_ROW, FPS
 from src.exceptions.grid_exceptions import OutOfGridBoundsError
-from src.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError
+from src.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError, SnakeBackwardMoveError
 from src.grid.grid import BasicGrid
-from src.snake import Directions
+from src.snake import Directions, UnclePy
 
 
 class GameManager:
@@ -26,7 +26,13 @@ class GameManager:
     def dispose(self):
         self.grid.clear()
 
-        self.snake = self.grid.add_snake(5, (0, 100, 100))
+        self.snake = UnclePy(
+            grid=self.grid,
+            cell=self.grid.get_cell(CELLS_IN_ROW - 4, 0),
+            length=3,
+            color=(255, 0, 0),
+        )
+
         self.grid.add_food((100, 100, 0), 3)
         self.grid.add_food((100, 100, 0), 3)
 
@@ -43,14 +49,17 @@ class GameManager:
                 if event.type == pygame.QUIT:
                     done = True
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RIGHT and self.snake.direction != Directions.LEFT:
-                        self.snake.direction = Directions.RIGHT
-                    if event.key == pygame.K_LEFT and self.snake.direction != Directions.RIGHT:
-                        self.snake.direction = Directions.LEFT
-                    if event.key == pygame.K_UP and self.snake.direction != Directions.DOWN:
-                        self.snake.direction = Directions.UP
-                    if event.key == pygame.K_DOWN and self.snake.direction != Directions.UP:
-                        self.snake.direction = Directions.DOWN
+                    try:
+                        if event.key == pygame.K_RIGHT:
+                            self.snake.direction = Directions.RIGHT
+                        if event.key == pygame.K_LEFT:
+                            self.snake.direction = Directions.LEFT
+                        if event.key == pygame.K_UP:
+                            self.snake.direction = Directions.UP
+                        if event.key == pygame.K_DOWN:
+                            self.snake.direction = Directions.DOWN
+                    except SnakeBackwardMoveError:
+                        pass
             try:
                 if frame_counter < (FPS - 1) / self.snake.speed:
                     frame_counter += 1
@@ -58,7 +67,7 @@ class GameManager:
                     self.snake.move()
                     frame_counter = 0
             except (OutOfGridBoundsError, SnakeTwistedError, SnakeHeadBeatenError):
-                print(f'Total scores {self.snake.scores}')
+                # print(f'Total scores {self.snake.scores}')
                 break
 
             self.grid.draw(self.screen, pygame)
