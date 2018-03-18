@@ -10,10 +10,10 @@ from src.grid.structure import GridStructure
 
 
 class Directions(Enum):
-    LEFT = 'Left'
-    UP = 'Up'
-    RIGHT = 'Right'
-    DOWN = 'Down'
+    LEFT = 0
+    UP = 1
+    RIGHT = 2
+    DOWN = 3
 
 
 class UnclePy(GridStructure):
@@ -33,6 +33,8 @@ class UnclePy(GridStructure):
         self._direction = None
 
         super().__init__(grid, [], color)
+        self.char_label = 's'
+
         discovered_cells = self.get_dispose_cells(cell, length)
         self + discovered_cells
 

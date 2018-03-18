@@ -2,6 +2,7 @@ class GridStructure:
     def __init__(self, grid, cells, color):
         self.grid = grid
         self.color = color
+        self.char_label = '*'
 
         self.cells = []
         self + cells

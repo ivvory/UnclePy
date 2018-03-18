@@ -35,6 +35,20 @@ class BasicGrid:
         self._cells = self._create_grid_cells()
         self.main_structure = GridStructure(self, self._cells, self.color)
 
+    def __repr__(self):
+        res = ''
+
+        prev_y = -1
+        for c in self.cells:
+            _, y = c.coordinates
+            if y != prev_y:
+                res += '\n'
+                prev_y = y
+
+            res += c.owner.char_label
+
+        return res
+
     @property
     def cells(self):
         return self._cells
@@ -148,7 +162,7 @@ class BasicGrid:
         x_indices = range(self.bounds.cells_in_row)
         y_indices = range(self.bounds.cells_in_column)
         index_combinations = itertools.product(x_indices, y_indices)
-        cells = [GridCell((x, y)) for x, y in index_combinations]
+        cells = [GridCell((x, y)) for y, x in index_combinations]
 
         return cells
 

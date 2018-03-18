@@ -11,3 +11,4 @@ class Food(GridStructure):
         super().__init__(grid, [cell], color)
 
         self.value = value
+        self.char_label = 'f'
