@@ -1,3 +1,4 @@
+import random
 from enum import Enum
 from typing import List
 
@@ -161,13 +162,14 @@ class UnclePy(GridStructure):
         Returns:
             :obj:`list` of :obj:`GridCell`: Cells to dispose.
         """
-        half_grid_x_len = self.grid.bounds.cells_in_row / 2
-        half_grid_y_len = self.grid.bounds.cells_in_column / 2
+        half_grid_x_len = self.grid.bounds.cells_in_row // 2 - 1
+        half_grid_y_len = self.grid.bounds.cells_in_column // 2 - 1
 
         if length > half_grid_x_len and length > half_grid_y_len:
             raise LongDisposeLengthException()
 
         all_directions = list(Directions)
+        random.shuffle(all_directions)
         for d in all_directions:
             cells = self._discover_direction(tail_cell, d, length)
 
@@ -183,13 +185,13 @@ class UnclePy(GridStructure):
         tail_x, tail_y = cell.coordinates
 
         if direction == Directions.RIGHT:
-            good_dispose_direction = tail_x + length < self.grid.bounds.cells_in_row / 2
+            good_dispose_direction = tail_x + length < self.grid.bounds.cells_in_row - 1
         elif direction == Directions.LEFT:
-            good_dispose_direction = tail_x - length > self.grid.bounds.cells_in_row / 2
+            good_dispose_direction = tail_x - length > 1
         elif direction == Directions.UP:
-            good_dispose_direction = tail_y - length > self.grid.bounds.cells_in_column / 2
+            good_dispose_direction = tail_y - length > 1
         elif direction == Directions.DOWN:
-            good_dispose_direction = tail_y + length < self.grid.bounds.cells_in_column / 2
+            good_dispose_direction = tail_y + length < self.grid.bounds.cells_in_column - 1
 
         if not good_dispose_direction:
             return False

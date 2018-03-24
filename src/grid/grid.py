@@ -45,7 +45,7 @@ class BasicGrid:
                 res += '\n'
                 prev_y = y
 
-            res += c.owner.char_label
+            res += c.owner.char_label + ' '
 
         return res
 
