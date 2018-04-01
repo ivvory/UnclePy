@@ -2,6 +2,8 @@ import random
 from enum import Enum
 from typing import List
 
+from math import sqrt
+
 from src.exceptions.grid_exceptions import OutOfGridBoundsError
 from src.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError, LongDisposeLengthException, \
     SnakeBackwardMoveError
@@ -75,6 +77,21 @@ class UnclePy(GridStructure):
         """int: speed of the snake's movement."""
 
         return self._speed
+
+    def get_food_distance(self) -> float:
+        """Return nearest food to the head."""
+
+        all_food_cells = [c for c in self.grid.cells if c.owner.__class__ is Food]
+
+        distances = []
+        head_x, head_y = self.head.coordinates
+        for f in all_food_cells:
+            f_x, f_y = f.coordinates
+            distance_to_head = sqrt((head_x - f_x) ** 2 + (head_y - f_y) ** 2)
+
+            distances.append(distance_to_head)
+
+        return min(distances)
 
     def opposite_direction(self):
         """Return opposite direction for the current one."""

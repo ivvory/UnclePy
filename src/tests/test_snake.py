@@ -1,6 +1,7 @@
 import unittest
 
 from src.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError, SnakeBackwardMoveError
+from src.food import Food
 from src.grid.grid import BasicGrid, GridBounds
 from src.snake import UnclePy, Directions
 
@@ -75,3 +76,20 @@ class TestUnclePy(unittest.TestCase):
         should_be_available = [Directions.LEFT, Directions.DOWN]
 
         self.assertListEqual(list(self.snake.available_directions()), should_be_available)
+
+    def test_food_distance(self):
+        head_x, head_y = self.snake.head.coordinates
+        nearest_food_cell = self.grid.get_cell(head_x - 4, head_y + 3)
+        distant_food_cell = self.grid.get_cell(head_x - 4, head_y + 4)
+
+        Food(self.grid, nearest_food_cell, (50, 50, 50), 1)
+        Food(self.grid, distant_food_cell, (50, 50, 50), 1)
+
+        nearest_distance = self.snake.get_food_distance()
+        expected_distance = 5.0
+
+        self.assertEqual(nearest_distance, expected_distance)
+
+        self.grid.bring_back_cells([nearest_food_cell])
+        new_nearest_distance = self.snake.get_food_distance()
+        self.assertGreater(new_nearest_distance, nearest_distance)
