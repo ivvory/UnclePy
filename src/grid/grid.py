@@ -54,8 +54,9 @@ class BasicGrid:
         return self._cells
 
     def add_food(self, color, value):
-        free_cell = random.choice(self.free_cells())
-        Food(self, free_cell, color, value)
+        food_cell = random.choice(self.free_cells())
+
+        return Food(self, food_cell, color, value)
 
     def add_snake(self, length, color):
         free_cell = random.choice(self.free_cells())
@@ -106,6 +107,9 @@ class BasicGrid:
 
     def get_cells(self, coordinates: list) -> list:
         return [self.get_cell(*coord) for coord in coordinates]
+
+    def food_cells(self):
+        return [c for c in self.cells if c.owner.__class__ is Food]
 
     def free_cells(self):
         return [c for c in self.cells if self.is_free_cell(c)]

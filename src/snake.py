@@ -4,6 +4,8 @@ from typing import List
 
 from math import sqrt
 
+import math
+
 from src.exceptions.grid_exceptions import OutOfGridBoundsError
 from src.exceptions.snake_exceptions import SnakeTwistedError, SnakeHeadBeatenError, LongDisposeLengthException, \
     SnakeBackwardMoveError
@@ -81,7 +83,7 @@ class UnclePy(GridStructure):
     def get_food_distance(self) -> float:
         """Return nearest food to the head."""
 
-        all_food_cells = [c for c in self.grid.cells if c.owner.__class__ is Food]
+        all_food_cells = self.grid.food_cells()
 
         distances = []
         head_x, head_y = self.head.coordinates
@@ -92,6 +94,14 @@ class UnclePy(GridStructure):
             distances.append(distance_to_head)
 
         return min(distances)
+
+    def get_food_angle(self, food_cell):
+        food_x, food_y = food_cell.coordinates
+        head_x, head_y = self.head.coordinates
+
+        dx, dy = food_x - head_x, food_y - head_y
+
+        return math.atan2(dx, dy)
 
     def opposite_direction(self):
         """Return opposite direction for the current one."""

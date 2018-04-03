@@ -58,11 +58,6 @@ class TestUnclePy(unittest.TestCase):
         self.assertEqual(self.snake.cells[0].coordinates, (55, 0))
         self.assertFalse(self.grid.get_cell(0, 0).owner is self.snake)
 
-    def test_left_dispose(self):
-        assumed_coordinates = {(56, 0), (55, 0), (54, 0), (53, 0), (52, 0)}
-        real_coordinates = set(c.coordinates for c in self.snake.cells)
-        self.assertSetEqual(real_coordinates, assumed_coordinates)
-
     def test_direction_setter(self):
         considering_directions = Directions.RIGHT, Directions.LEFT, Directions.DOWN, Directions.UP
         opposite_directions = Directions.LEFT, Directions.RIGHT, Directions.UP, Directions.DOWN
@@ -93,3 +88,12 @@ class TestUnclePy(unittest.TestCase):
         self.grid.bring_back_cells([nearest_food_cell])
         new_nearest_distance = self.snake.get_food_distance()
         self.assertGreater(new_nearest_distance, nearest_distance)
+
+    def test_food_angle(self):
+        head_x, head_y = self.snake.head.coordinates
+        nearest_food_cell = self.grid.get_cell(head_x + 2, head_y + 2)
+
+        Food(self.grid, nearest_food_cell, (50, 50, 50), 1)
+
+        got_angle = self.snake.get_food_angle(nearest_food_cell)
+        self.assertAlmostEqual(got_angle, 0.785, places=3)
